@@ -3,9 +3,12 @@
 
 namespace  App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
+use App\Entity\UserProfile;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class HelloController extends AbstractController
@@ -18,10 +21,23 @@ class HelloController extends AbstractController
     
     ];
 
-    #[Route('/{limit<\d+>?3}', name: 'app_index')]
-    public function index(int $limit): Response
+    #[Route('/', name: 'app_index')]
+    public function index(EntityManagerInterface $em): Response
     {
-        return $this->render('hello/index.html.twig', ['messages' =>$this->messages, 'limit' => $limit]);
+        $user = new User();
+        $user->setEmail('rawi@gmail.com');
+        $user->setPassword('12345');
+        $em->persist($user);
+        $em->flush();
+        // $userProfile = new UserProfile();
+        // $userProfile->setUser($user);
+        // $em->persist($userProfile);
+        // $em->flush();
+
+        // $profile = $em->getRepository(UserProfile::class)->findOneBy(['id' => 1]);
+        // $em->remove($profile);
+        // $em->flush();
+        return $this->render('hello/index.html.twig', ['messages' =>$this->messages, 'limit' =>3]);
         // return new Response();
         // implode(', ', array_slice($this->messages, 0, $limit))
     }
