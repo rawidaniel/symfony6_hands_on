@@ -51,7 +51,15 @@ class MicroPostVoter extends Voter
                 // logic to determine if the user can VIEW
                 // return true or false
                 // break;
-                return true;
+                // return true;
+                if (!$subject->isExtraPrivacy()) {
+                    return true;
+                }
+
+                return $isAuthenticated &&
+                    ($subject->getAuthor()->getId() === $user->getId()
+                        || $subject->getAuthor()->getFollows()->contains($user)
+                    );
         }
 
         return false;

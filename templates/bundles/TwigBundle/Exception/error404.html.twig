@@ -1,0 +1,11 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block body %}
+    <h1>Oops! Page Not Found</h1>
+    <p>We're sorry, but the page you were looking for doesn't exist.</p>
+    <a href="{{ path('app_micro_post') }}">Return to homepage</a>
+{% endblock %}
